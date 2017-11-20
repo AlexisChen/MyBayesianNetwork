@@ -87,9 +87,9 @@ int main(int argc, char* argv[]) {
     b.RunTrainingSet(trainImages, trainLabels);
     b.RunTestSet(testImages, testLabels);
     //
-    // b.WriteEvaluationBitmap();
-    // b.WriteNetworkMatrix();
-    // b.WriteClassificationMatrix();
+    b.WriteEvaluationBitmap();
+    b.WriteNetworkMatrix();
+    b.WriteClassificationMatrix();
 
     return 0;
 }
