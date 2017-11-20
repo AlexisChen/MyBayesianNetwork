@@ -74,7 +74,7 @@ void BayesianHealper::RunTestSet(CAHRVEC testImages, std::vector<unsigned char> 
   for (size_t i = 0; i < testSetSize; ++i) {
     int row = static_cast<int>(testLabels[i]);
     //predict for each testimage
-    double maxProbability = std::numeric_limits<double>::min();
+    double maxProbability = std::numeric_limits<int>::min();
     int mostLikelyDigit = -1;//column
     //for each of the digit calculate probability choose the max.
     for(int j = 0; j < 10; ++j)
