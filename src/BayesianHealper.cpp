@@ -8,7 +8,7 @@
 
 
 BayesianHealper::BayesianHealper()
-{ 
+{
   mFrequencyOfEachClass= std::vector<int>(10, 0);
   mClassPriorProbability = std::vector<double>(10,0);
   mNetworkMatrix = INTVEC(10, std::vector<int>(784, 0));
@@ -23,7 +23,7 @@ void BayesianHealper::RunTrainingSet(CAHRVEC trainingImages, std::vector<unsigne
 {
   int trainSetSize = 60000;
   int trainImageSize = 784;
-  
+
   for(int i = 0 ; i < trainSetSize; ++i)
   {
     int label = static_cast<int>(trainingLabels[i]);//correctlabel
@@ -59,9 +59,9 @@ double BayesianHealper::GetProbabilityOfDigitGivenTestImg(int c, std::vector<uns
   {
     int pixelValue = static_cast<int>(testImage[i]);
     double prob = pixelValue == 1? mNetworkProbabilityMatrix[c][i]: (1- mNetworkProbabilityMatrix[c][i] );
-    probabilitySum += log(prob);
+    probabilitySum += log2(prob);
   }
-  probabilitySum += log(mClassPriorProbability[c]);
+  probabilitySum += log2(mClassPriorProbability[c]);
   return probabilitySum;
 }
 
@@ -74,7 +74,7 @@ void BayesianHealper::RunTestSet(CAHRVEC testImages, std::vector<unsigned char> 
   for (size_t i = 0; i < testSetSize; ++i) {
     int row = static_cast<int>(testLabels[i]);
     //predict for each testimage
-    int maxProbability = -1;
+    double maxProbability = std::numeric_limits<double>::min();
     int mostLikelyDigit = -1;//column
     //for each of the digit calculate probability choose the max.
     for(int j = 0; j < 10; ++j)
@@ -116,7 +116,7 @@ DOUBLEVEC BayesianHealper::GetNetworkMatrix()
   DOUBLEVEC ret;
   int i = 0;
   std::transform( mNetworkMatrix.begin(), mNetworkMatrix.end(), std::back_inserter(ret), [this, &i](const std::vector<int> row){
-    
+
     std::vector<double> temp;
     int denominator = mFrequencyOfEachClass[i];
     std::transform(row.begin(), row.end(),std::back_inserter(temp),[&denominator](const int& a) {
