@@ -4,9 +4,17 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 
-BayesianHealper::BayesianHealper(){}
+BayesianHealper::BayesianHealper()
+:mFrequencyOfEachClass(10, 0)
+,mClassPriorProbability(10,0)
+,mNetworkMatrix(10, std::vector<int>(784, 0))
+,mNetworkProbabilityMatrix(10, std::vector<double>(784, 0))
+,mClassificationMatrix(10, std::vector<int> (10,0))
+{}
+
 BayesianHealper::~BayesianHealper(){}
 
 

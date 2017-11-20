@@ -14,6 +14,9 @@ int main(int argc, char* argv[]) {
     mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(MNIST_DATA_DIR);
     //Binarize the data set (so that pixels have values of either 0 or 1)
     mnist::binarize_dataset(dataset);
+    
+
+    /*
     //There are ten possible digits 0-9 (classes)
     int numLabels = 10;
     //There are 784 features (one per pixel in a 28x28 image)
@@ -28,6 +31,8 @@ int main(int argc, char* argv[]) {
     int trainImageToPrint = 50;
     int testImageToPrint = 5434;
     // get training images
+    */
+
     std::vector<std::vector<unsigned char>> trainImages = dataset.training_images;
     // get training labels
     std::vector<unsigned char> trainLabels = dataset.training_labels;
