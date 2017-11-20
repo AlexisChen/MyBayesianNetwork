@@ -23,6 +23,7 @@ void BayesianHealper::RunTrainingSet(CAHRVEC trainingImages, std::vector<unsigne
 {
   int trainSetSize = 60000;
   int trainImageSize = 784;
+  
   for(int i = 0 ; i < trainSetSize; ++i)
   {
     int label = static_cast<int>(trainingLabels[i]);//correctlabel
@@ -32,7 +33,21 @@ void BayesianHealper::RunTrainingSet(CAHRVEC trainingImages, std::vector<unsigne
       mNetworkMatrix[label][j] += pixelValue;
     }
   }
+
+
   mNetworkProbabilityMatrix = GetNetworkMatrix();
+  // for(int i = 0; i < 10; ++i)
+  // {
+  //   double max = 0;
+  //   double min = 500;
+  //   for(int j = 0; j < 784; j++)
+  //   {
+  //     max = std::max(max, mNetworkProbabilityMatrix[i][j]);
+  //     min = std::min(min, mNetworkProbabilityMatrix[i][j]);
+  //   }
+
+  //   double j = max;
+  // }
   mClassPriorProbability = GetClassPriorProbability();
 }
 
@@ -101,12 +116,13 @@ DOUBLEVEC BayesianHealper::GetNetworkMatrix()
   DOUBLEVEC ret;
   int i = 0;
   std::transform( mNetworkMatrix.begin(), mNetworkMatrix.end(), std::back_inserter(ret), [this, &i](const std::vector<int> row){
-    ++i;
+    
     std::vector<double> temp;
     int denominator = mFrequencyOfEachClass[i];
     std::transform(row.begin(), row.end(),std::back_inserter(temp),[&denominator](const int& a) {
-      return (a+1)*1.0 / denominator+2;
+      return (a*1.0+1) / (denominator+2);
     });
+    ++i;
     return temp;
   });
   return ret;
