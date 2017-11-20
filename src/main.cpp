@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
 
     BayesianHealper b;
     b.RunTrainingSet(trainImages, trainLabels);
-    // b.RunTestSet(testImages, testLabels);
+    b.RunTestSet(testImages, testLabels);
     //
     // b.WriteEvaluationBitmap();
     // b.WriteNetworkMatrix();

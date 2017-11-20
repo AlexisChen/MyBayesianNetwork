@@ -26,15 +26,16 @@ public:
 private:
   int mTotalNumberOfSamples = 60000;
 
-  std::vector<int> mFrequencyOfEachClass{0};
-  std::vector<double> mClassPriorProbability{0};
+  std::vector<int> mFrequencyOfEachClass;
+  std::vector<double> mClassPriorProbability;
   //10 by 768 int matrix to store the count of count of feature given class
 
-  INTVEC mNetworkMatrix{{0}} ;
-  DOUBLEVEC mNetworkProbabilityMatrix{{0}} ;
+  INTVEC mNetworkMatrix;
+  DOUBLEVEC mNetworkProbabilityMatrix;
 
   //10 by 10 int matrix to store the the count of matches
   //populated at the end of training.
-  INTVEC mClassificationMatrix{{0}} ;
+  INTVEC mClassificationMatrix;
+
 };
 #endif

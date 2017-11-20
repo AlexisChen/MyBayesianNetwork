@@ -8,12 +8,13 @@
 
 
 BayesianHealper::BayesianHealper()
-:mFrequencyOfEachClass(10, 0)
-,mClassPriorProbability(10,0)
-,mNetworkMatrix(10, std::vector<int>(784, 0))
-,mNetworkProbabilityMatrix(10, std::vector<double>(784, 0))
-,mClassificationMatrix(10, std::vector<int> (10,0))
-{}
+{ 
+  mFrequencyOfEachClass= std::vector<int>(10, 0);
+  mClassPriorProbability = std::vector<double>(10,0);
+  mNetworkMatrix = INTVEC(10, std::vector<int>(784, 0));
+  mNetworkProbabilityMatrix = DOUBLEVEC(10, std::vector<double>(784, 0));
+  mClassificationMatrix = INTVEC(10, std::vector<int> (10,0));
+}
 
 BayesianHealper::~BayesianHealper(){}
 
@@ -24,11 +25,11 @@ void BayesianHealper::RunTrainingSet(CAHRVEC trainingImages, std::vector<unsigne
   int trainImageSize = 784;
   for(int i = 0 ; i < trainSetSize; ++i)
   {
+    int label = static_cast<int>(trainingLabels[i]);//correctlabel
+    mFrequencyOfEachClass[label] ++;
     for (int j = 0; j < trainImageSize ; ++j) {
       int pixelValue = static_cast<int>(trainingImages[i][j]);//0 for black 1 for white
-      int label = static_cast<int>(trainingLabels[i]);//correctlabel
       mNetworkMatrix[label][j] += pixelValue;
-      mFrequencyOfEachClass[label] ++;
     }
   }
   mNetworkProbabilityMatrix = GetNetworkMatrix();
@@ -104,7 +105,7 @@ DOUBLEVEC BayesianHealper::GetNetworkMatrix()
     std::vector<double> temp;
     int denominator = mFrequencyOfEachClass[i];
     std::transform(row.begin(), row.end(),std::back_inserter(temp),[&denominator](const int& a) {
-      return a+1 / denominator+2;
+      return (a+1)*1.0 / denominator+2;
     });
     return temp;
   });
@@ -115,8 +116,8 @@ DOUBLEVEC BayesianHealper::GetNetworkMatrix()
 std::vector<double> BayesianHealper::GetClassPriorProbability()
 {
   std::vector<double> ret;
-  std::transform(mFrequencyOfEachClass.begin(), mFrequencyOfEachClass.end(), std::back_inserter(ret), [this](const int& a) {
-    return a / mTotalNumberOfSamples;
+  std::transform(mFrequencyOfEachClass.begin(), mFrequencyOfEachClass.end(), std::back_inserter(ret), [this](int& a) {
+    return a*1.0 / mTotalNumberOfSamples;
   });
   return ret;
 }
